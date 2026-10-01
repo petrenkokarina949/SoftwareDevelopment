@@ -11,21 +11,10 @@ val pensionContributionPercentage = 6.7
 val employeeId = 6143
 
 fun main(args: Array<String>){
-    println ("Pay Slip Printer")
     printPaySlip()
 }
 
 fun printPaySlip(){
-
-    val normalPay = hoursWorked * hourlyRate
-    val overtimePay = overtimeHoursWorked * hourlyRate * 1.5
-    val grossPay = normalPay + overtimePay
-
-    val bonus = grossPay * bonusPercentage / 100
-    val taxDeduction = grossPay * taxRatePercentage / 100
-    val pensionDeduction = grossPay * pensionContributionPercentage / 100
-
-    val netPay = grossPay + bonus - taxDeduction - pensionDeduction
     println("Pay Slip Printer")
     println("======================================================")
     println("                         PAYSLIP")
@@ -39,15 +28,28 @@ fun printPaySlip(){
     println("Hours Worked      : " + hoursWorked)
     println("Overtime Hours    : " + overtimeHoursWorked)
     println("------------------------------------------------------")
-    println("Normal Pay        : €" + normalPay)
-    println("Overtime Pay      : €" + overtimePay)
-    println("Gross Pay         : €" + grossPay)
-    println("Bonus             : €" + bonus)
-    println("Tax Deduction     : €" + taxDeduction)
-    println("Pension Deduction : €" + pensionDeduction)
+    println("Normal Pay        : €" + calculateNormalPay())
+    println("Overtime Pay      : €" + calculateOvertimePay())
+    println("Gross Pay         : €" + calculateGrossPay())
+    println("Bonus             : €" + calculateBonus())
+    println("Tax Deduction     : €" + calculateTax())
+    println("Pension Deduction : €" + calculatePension())
     println("------------------------------------------------------")
-    println("Net Pay           : €" + netPay)
+    println("Net Pay           : €" + calculateNetPay())
     println("======================================================")
 }
 
 fun getFullName() = "$firstName $surname".uppercase()
+fun calculateNormalPay() = hourlyRate * hoursWorked
+
+fun calculateOvertimePay() = overtimeHoursWorked * hourlyRate * 1.5
+
+fun calculateGrossPay() = calculateNormalPay() + calculateOvertimePay()
+
+fun calculateBonus() = calculateGrossPay() * bonusPercentage / 100
+
+fun calculateTax() = calculateGrossPay() * taxRatePercentage / 100
+
+fun calculatePension() = calculateGrossPay() * pensionContributionPercentage / 100
+
+fun calculateNetPay() = calculateGrossPay() + calculateBonus() - calculateTax() - calculatePension()
