@@ -1,14 +1,16 @@
-val firstName = "Joe"
-val surname = "Soap"
-val department = "Computer Servise"
-val jobTitle = "Technician"
-val hourlyRate = 26.87
-val hoursWorked = 39
-val overtimeHoursWorked = 4
-val bonusPercentage = 4.5
-val taxRatePercentage = 23.5
-val pensionContributionPercentage = 6.7
-val employeeId = 6143
+var employee =  Employee(
+    1,
+    "Joe",
+    "Soap",
+    "Computer Services",
+    "Technician",
+    32.45,
+    38,
+    5,
+    5.0,
+    23.0,
+    7.5)
+
 
 fun main(){
     var input : Int
@@ -16,9 +18,9 @@ fun main(){
     do {
         input = menu()
         when(input) {
-            1 -> println("Hourly Rate: ${money(hourlyRate)}")
-            2 -> println("Hours Worked: $hoursWorked")
-            3 -> println("Overtime Hours: $overtimeHoursWorked")
+            1 -> println("Hourly Rate: ${money(employee.hourlyRate)}")
+            2 -> println("Hours Worked: ${employee.hoursWorked}")
+            3 -> println("Overtime Hours: ${employee.overtimeHoursWorked}")
             4 -> println("Bonus : ${money  (calculateBonus())}")
             5 -> println("Tax Rate: ${money  (calculateTax())}")
             6 -> println("Pension : ${money (calculatePension())}")
@@ -55,13 +57,13 @@ fun getPaySlip(): String {
                         PAYSLIP
 ======================================================
 
-Employee ID       :  $employeeId
-Employee :  ${getFullName()} ($employeeId)
-Job / Dept        : $jobTitle ($department)
+Employee ID       :  ${employee.employeeId}
+Employee          :  ${getFullName()} (${employee.employeeId})
+Job / Dept        : ${employee.jobTitle} (${employee.department})
 ------------------------------------------------------
-Hourly Rate       : ${money(hourlyRate)}
-Hours Worked      : $hoursWorked
-Overtime Hours    : $overtimeHoursWorked
+Hourly Rate       : ${money(employee.hourlyRate)}
+Hours Worked      : ${employee.hoursWorked}
+Overtime Hours    : ${employee.overtimeHoursWorked}
 ------------------------------------------------------
 Normal Pay        : ${money(calculateNormalPay())}
 Overtime Pay      : ${money (calculateOvertimePay())}
@@ -75,18 +77,16 @@ Net Pay           : ${money  (calculateNetPay())}
 """.trimIndent()
 }
 
-fun getFullName() = "$firstName $surname".uppercase()
-fun calculateNormalPay() = hourlyRate * hoursWorked
+fun getFullName() = "${employee.firstName} ${employee.surname}".uppercase()
+fun calculateNormalPay() = employee.hourlyRate * employee.hoursWorked
 
-fun calculateOvertimePay() = overtimeHoursWorked * hourlyRate * 1.5
+fun calculateOvertimePay() = employee.overtimeHoursWorked * employee.hourlyRate * 1.5
 
 fun calculateGrossPay() = calculateNormalPay() + calculateOvertimePay()
 
-fun calculateBonus() = calculateGrossPay() * bonusPercentage / 100
+fun calculateBonus() = calculateGrossPay() * employee.bonusPercentage / 100
 
-fun calculateTax() = calculateGrossPay() * taxRatePercentage / 100
-
-fun calculatePension() = calculateGrossPay() * pensionContributionPercentage / 100
-
+fun calculateTax() = calculateGrossPay() * employee.pensionContributionPercentage / 100
+fun calculatePension() = calculateGrossPay() * employee.pensionContributionPercentage / 100
 fun calculateNetPay() = calculateGrossPay() + calculateBonus() - calculateTax() - calculatePension()
 fun money(value: Double) = "€%.2f".format(value)
