@@ -14,7 +14,7 @@ var employee =  Employee(
 
 fun main(){
     var input : Int
-
+    add()
     do {
         input = menu()
         when(input) {
@@ -67,7 +67,7 @@ Overtime Hours    : ${employee.overtimeHoursWorked}
 ------------------------------------------------------
 Normal Pay        : ${money(calculateNormalPay())}
 Overtime Pay      : ${money (calculateOvertimePay())}
-"Gross Pay        : ${money(calculateGrossPay())}
+Gross Pay        : ${money(calculateGrossPay())}
 Bonus             : ${money  (calculateBonus())}
 Tax Deduction     : ${money  (calculateTax())}
 Pension Deduction : ${money (calculatePension())}
@@ -90,3 +90,52 @@ fun calculateTax() = calculateGrossPay() * employee.pensionContributionPercentag
 fun calculatePension() = calculateGrossPay() * employee.pensionContributionPercentage / 100
 fun calculateNetPay() = calculateGrossPay() + calculateBonus() - calculateTax() - calculatePension()
 fun money(value: Double) = "€%.2f".format(value)
+fun add() {
+
+    print("Enter employee ID: ")
+    val employeeId = readln().toInt()
+
+    print("Enter first name: ")
+    val firstName = readlnOrNull().toString()
+
+    print("Enter surname: ")
+    val surname = readlnOrNull().toString()
+
+    print("Enter department: ")
+    val department = readlnOrNull().toString()
+
+    print("Enter job title: ")
+    val jobTitle = readlnOrNull().toString()
+
+    print("Enter hourly rate: ")
+    val hourlyRate = readln().toDouble()
+
+    print("Enter hours worked: ")
+    val hoursWorked = readln().toInt()
+
+    print("Enter overtime hours worked: ")
+    val overtimeHoursWorked = readln().toInt()
+
+    print("Enter bonus percentage: ")
+    val bonusPercentage = readln().toDouble()
+
+    print("Enter tax rate percentage: ")
+    val taxRatePercentage = readln().toDouble()
+
+    print("Enter pension contribution percentage: ")
+    val pensionContributionPercentage = readln().toDouble()
+
+    employee = Employee(
+        employeeId,
+        firstName,
+        surname,
+        department,
+        jobTitle,
+        hourlyRate,
+        hoursWorked,
+        overtimeHoursWorked,
+        bonusPercentage,
+        taxRatePercentage,
+        pensionContributionPercentage
+    )
+}
