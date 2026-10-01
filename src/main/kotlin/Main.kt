@@ -1,4 +1,6 @@
 import model.Employee
+import service.PayrollService
+val payrollService = PayrollService()
 
 var employee = Employee(
     1,
@@ -24,12 +26,12 @@ fun main(){
             1 -> println("Hourly Rate: ${money(employee.hourlyRate)}")
             2 -> println("Hours Worked: ${employee.hoursWorked}")
             3 -> println("Overtime Hours: ${employee.overtimeHoursWorked}")
-            4 -> println("Bonus : ${money  (calculateBonus())}")
-            5 -> println("Tax Rate: ${money  (calculateTax())}")
-            6 -> println("Pension : ${money (calculatePension())}")
-            7 -> println("Gross Payment : ${money(calculateGrossPay())}")
-            8 -> println("Net pay: ${money(calculateNetPay())}")
-            9 -> println(getPaySlip())
+            4 -> println("Bonus : ${money(payrollService.calculateBonus(employee))}")
+            5 -> println("Tax Rate:  ${money(payrollService.calculateTax(employee))}")
+            6 -> println("Pension : ${money(payrollService.calculatePension(employee))}")
+            7 -> println("Gross Payment : ${money(payrollService.calculateGrossPay(employee))}")
+            8 -> println("Net pay: ${money(payrollService.calculateNetPay(employee))}")
+            9 -> println(payrollService.getPayslip(employee))
             -1 -> println("Exiting App")
             else -> println("Invalid Option")
         }
@@ -38,7 +40,7 @@ fun main(){
 }
 fun menu() : Int {
     print("""
-         model.Employee Menu for ${getFullName()}
+         model.Employee Menu for ${payrollService.getFullName(employee)}
            1. Hourly Rate
            2. Hours Worked
            3. Overtime Hours
@@ -53,45 +55,6 @@ fun menu() : Int {
     return readln().toInt()
 }
 
-fun getPaySlip(): String {
-    return """
-   Pay Slip Printer
-======================================================
-                        PAYSLIP
-======================================================
-
-model.Employee ID       :  ${employee.employeeId}
-model.Employee          :  ${getFullName()} (${employee.employeeId})
-Job / Dept        : ${employee.jobTitle} (${employee.department})
-------------------------------------------------------
-Hourly Rate       : ${money(employee.hourlyRate)}
-Hours Worked      : ${employee.hoursWorked}
-Overtime Hours    : ${employee.overtimeHoursWorked}
-------------------------------------------------------
-Normal Pay        : ${money(calculateNormalPay())}
-Overtime Pay      : ${money (calculateOvertimePay())}
-Gross Pay        : ${money(calculateGrossPay())}
-Bonus             : ${money  (calculateBonus())}
-Tax Deduction     : ${money  (calculateTax())}
-Pension Deduction : ${money (calculatePension())}
-------------------------------------------------------
-Net Pay           : ${money  (calculateNetPay())}
-======================================================
-""".trimIndent()
-}
-
-fun getFullName() = "${employee.firstName} ${employee.surname}".uppercase()
-fun calculateNormalPay() = employee.hourlyRate * employee.hoursWorked
-
-fun calculateOvertimePay() = employee.overtimeHoursWorked * employee.hourlyRate * 1.5
-
-fun calculateGrossPay() = calculateNormalPay() + calculateOvertimePay()
-
-fun calculateBonus() = calculateGrossPay() * employee.bonusPercentage / 100
-
-fun calculateTax() = calculateGrossPay() * employee.pensionContributionPercentage / 100
-fun calculatePension() = calculateGrossPay() * employee.pensionContributionPercentage / 100
-fun calculateNetPay() = calculateGrossPay() + calculateBonus() - calculateTax() - calculatePension()
 fun money(value: Double) = "€%.2f".format(value)
 fun add() {
 
