@@ -18,11 +18,11 @@ fun main(){
             3 -> println(getEmployeeById())
             4 -> displayPaySlip()
             -99 -> dummyData()
-            -1 -> println("Exiting App")
+            0 -> println("Exiting App")
             else -> println("Invalid Option")
         }
         println()
-    } while (input != -1)
+    } while (input != 0)
 }
 fun list() = employeeRepository.getAll().forEach {println(it)}
 
@@ -115,7 +115,7 @@ fun menu() : Int {
          |   2. List All Employees
          |   3. Search Employees 
          |   4. Print Payslip for Employee
-         |  -1. Exit
+         |   0. Exit
          |       
          |Enter Option : """.trimMargin())
     return readln().toInt()
